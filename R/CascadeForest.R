@@ -303,8 +303,10 @@ CascadeForest <- function(training_data,
         # Not the last layer, therefore we bind predictions, or overwrite them
         training_data <- Laurae::DTcbind(training_data, model[[i]]$train_preds) # Routine overwrites if column names are identical
         training_start <- if (boosting) {rowMeans(model[[i]]$train_preds)} else {NULL}
-        validation_data <- Laurae::DTcbind(validation_data, model[[i]]$valid_preds) # Routine overwrites if column names are identical
-        validation_start <- if (boosting) {rowMeans(model[[i]]$valid_preds)} else {NULL}
+        if (!is.null(validation_data)) {
+         validation_data <- Laurae::DTcbind(validation_data, model[[i]]$valid_preds) # Routine overwrites if column names are identical
+         validation_start <- if (boosting) {rowMeans(model[[i]]$valid_preds)} else {NULL}
+         }
         
         # Check for essential needs
         if (essentials) {
